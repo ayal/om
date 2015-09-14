@@ -152,14 +152,7 @@ $(document)
                 }, step: function(v) {
                     if (v) {
                         console.log(i++, x, r);
-                        window.x.x = v.mod(4*r) ;
-                        z.attr({z:window.x.x});
-                        r-=0.1;
-                        if (r < 10) {
-                            origr += 20;
-                            r = origr;;
-                        }
-
+                        window.x.x = v;
                         dowheel();
                     }
                 }
@@ -211,9 +204,17 @@ f = function(x) {
 };
 
 dowheel = function(e,acc) {
-    var r = rnd(1,50),g = rnd(1,50),b = rnd(1,50);
+    window.x.x = window.x.x.mod(4*r) ;
+    z.attr({z:window.x.x});
+    r-=0.1;
+    if (r < 10) {
+        origr += 20;
+        r = origr;;
+    }
+
+    var rr = rnd(1,50),g = rnd(1,50),b = rnd(1,50);
     var a = rnd(40,100);
-    ctx.fillStyle = "rgba("+r+","+g+","+b+","+(a/255)+")";
+    ctx.fillStyle = "rgba("+rr+","+g+","+b+","+(a/255)+")";
     ctx.beginPath();
     var fx = f(window.x.x);
     ctx.arc($('body').width()/2 + fx[0], $('body').height()/2 +fx[1], rnd(1,4), 0, 2 * Math.PI, false);
@@ -226,6 +227,12 @@ dowheel = function(e,acc) {
     canvas.width = $('body').width();
     canvas.height = $('body').height();
 var ctx = canvas.getContext("2d");
+
+
+    $('body').on('mousewheel', function(event) {
+        window.x.x += event.deltaY*5;
+        dowheel();
+    });
 
 
 })
