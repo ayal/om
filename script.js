@@ -15,7 +15,7 @@ var i_v = {
   i_offsetThreshold: 3000,                       // (px) determines, together with i_offsetThreshold if a swipe occurred: if calculated offset is above this threshold
   i_startThreshold: 5,                        // (px) how many pixels finger needs to move before a direction (horizontal or vertical) is chosen. This will make the direction detection more accurate, but can introduce a delay when starting the swipe if set too high
   i_acceleration: 10,                      // increase the multiplier by this value, each time the user swipes again when still scrolling. The multiplier is used to multiply the offset. Set to 0 to disable.
-  i_accelerationT: 10                       // (ms) time between successive swipes that determines if the multiplier is increased (if lower than this value)
+  i_accelerationT: 250                       // (ms) time between successive swipes that determines if the multiplier is increased (if lower than this value)
 };
 /* stop editing here */
 
