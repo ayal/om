@@ -1,5 +1,3 @@
-
-
 $(function(){
 
 /*jslint browser: true*/
@@ -16,8 +14,8 @@ var i_v = {
   i_moveThreshold: 1,                      // (ms) determines if a swipe occurred: time between last updated movement @ touchmove and time @ touchend, if smaller than this value, trigger inertial scrolling
   i_offsetThreshold: 3000,                       // (px) determines, together with i_offsetThreshold if a swipe occurred: if calculated offset is above this threshold
   i_startThreshold: 5,                        // (px) how many pixels finger needs to move before a direction (horizontal or vertical) is chosen. This will make the direction detection more accurate, but can introduce a delay when starting the swipe if set too high
-  i_acceleration: 0,                      // increase the multiplier by this value, each time the user swipes again when still scrolling. The multiplier is used to multiply the offset. Set to 0 to disable.
-  i_accelerationT: 0                       // (ms) time between successive swipes that determines if the multiplier is increased (if lower than this value)
+  i_acceleration: 10,                      // increase the multiplier by this value, each time the user swipes again when still scrolling. The multiplier is used to multiply the offset. Set to 0 to disable.
+  i_accelerationT: 10                       // (ms) time between successive swipes that determines if the multiplier is increased (if lower than this value)
 };
 /* stop editing here */
 
@@ -156,7 +154,7 @@ $(document)
                         console.log(i++, x, r);
                         window.x.x = v.mod(4*r) ;
                         z.attr({z:window.x.x});
-                        r-=0.3;
+                        r-=0.1;
                         if (r < 10) {
                             origr += 20;
                             r = origr;;
@@ -213,7 +211,7 @@ f = function(x) {
 };
 
 dowheel = function(e,acc) {
-    var r = rnd(1,30),g = rnd(1,30),b = rnd(1,30);
+    var r = rnd(1,50),g = rnd(1,50),b = rnd(1,50);
     var a = rnd(40,100);
     ctx.fillStyle = "rgba("+r+","+g+","+b+","+(a/255)+")";
     ctx.beginPath();
