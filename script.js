@@ -156,7 +156,7 @@ $(document)
                         console.log(i++, x, r);
                         window.x.x = v.mod(4*r) ;
                         z.attr({z:window.x.x});
-                        r-=0.1;
+                        r-=0.3;
                         if (r < 10) {
                             origr += 20;
                             r = origr;;
@@ -213,7 +213,7 @@ f = function(x) {
 };
 
 dowheel = function(e,acc) {
-    var r = rnd(1,130),g = rnd(1,130),b = rnd(1,130);
+    var r = rnd(1,30),g = rnd(1,30),b = rnd(1,30);
     var a = rnd(40,100);
     ctx.fillStyle = "rgba("+r+","+g+","+b+","+(a/255)+")";
     ctx.beginPath();
