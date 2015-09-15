@@ -15,7 +15,7 @@ var i_v = {
   i_offsetThreshold: 3000,                       // (px) determines, together with i_offsetThreshold if a swipe occurred: if calculated offset is above this threshold
   i_startThreshold: 5,                        // (px) how many pixels finger needs to move before a direction (horizontal or vertical) is chosen. This will make the direction detection more accurate, but can introduce a delay when starting the swipe if set too high
   i_acceleration: 10,                      // increase the multiplier by this value, each time the user swipes again when still scrolling. The multiplier is used to multiply the offset. Set to 0 to disable.
-  i_accelerationT: 250                       // (ms) time between successive swipes that determines if the multiplier is increased (if lower than this value)
+  i_accelerationT: 6550                       // (ms) time between successive swipes that determines if the multiplier is increased (if lower than this value)
 };
 /* stop editing here */
 
@@ -177,7 +177,7 @@ window.r = $('body').height() / 3, origr = r;
 window.x = {x:0};
 window.z = $({z:window.x.x});
 
-f = function(x) {
+f = function(x,r) {
     if (x < r && x > -r) {
       return [x,Math.floor(Math.sqrt(r*r- x*x))]
     }
@@ -203,23 +203,40 @@ f = function(x) {
 
 };
 
+ff = function(x) {
+    var ret = [];
+    _.each(_.range(rnd(1,rnd(1,10))), function(j){
+        _.each(_.range(rnd(1,rnd(1,10))), function(i){
+            var nop = rnd(0,0);
+            nop === 0 && ret.push(_.union(f(x + rnd(-1,1)*rnd(1,10), r + rnd(-1,1)*rnd(1,3) ),[rnd(1,2)]));
+        });
+    });
+    return ret;
+}
+
+getrgb = function() {
+    var rr = rnd(1,50),g = rnd(1,10),b = rnd(1,100);
+    var a = rnd(30,50);
+    return "rgba("+rr+","+g+","+b+","+(a/255)+")";
+};
+
 dowheel = function(e,acc) {
     window.x.x = window.x.x.mod(4*r) ;
     z.attr({z:window.x.x});
-    r-=0.1;
+    r-=10/r;
     if (r < 10) {
         origr += 20;
         r = origr;;
     }
 
-    var rr = rnd(1,50),g = rnd(1,50),b = rnd(1,50);
-    var a = rnd(40,100);
-    ctx.fillStyle = "rgba("+rr+","+g+","+b+","+(a/255)+")";
-    ctx.beginPath();
-    var fx = f(window.x.x);
-    ctx.arc($('body').width()/2 + fx[0], $('body').height()/2 +fx[1], rnd(1,4), 0, 2 * Math.PI, false);
-    ctx.fill();
+    var ffx = ff(window.x.x);
 
+    _.each(ffx, function(fx){
+        ctx.fillStyle = getrgb();
+        ctx.beginPath();    _
+        ctx.arc($('body').width()/2 + fx[0], $('body').height()/2 +fx[1], fx[2], 0, 2 * Math.PI, false);
+        ctx.fill();
+    })
 }
 
 
