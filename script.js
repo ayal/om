@@ -173,7 +173,7 @@ Number.prototype.mod = function(n) {
     return ((this%n)+n)%n;
 };
 
-window.r = $('body').height() / 4, origr = r;
+window.r = $('body').height() / 6, origr = r;
 window.x = {x:0};
 window.z = $({z:window.x.x});
 
@@ -205,10 +205,10 @@ f = function(x,r) {
 
 ff = function(x) {
     var ret = [];
-    _.each(_.range(rnd(1,rnd(1,3))), function(j){
-        _.each(_.range(rnd(1,rnd(1,3))), function(i){
+    _.each(_.range(rnd(1,3)), function(j){
+        _.each(_.range(rnd(1,3)), function(i){
             var nop = rnd(0,0);
-            nop === 0 && ret.push(_.union(f(x + rnd(-1,1)*rnd(1,5), r + rnd(-1,1)*rnd(1,3) ),[rnd(1,3)]));
+            nop === 0 && ret.push(_.union(f(x + rnd(-3,3), r + rnd(-3,3) ),[rnd(1,3)]));
         });
     });
     return ret;
@@ -219,20 +219,18 @@ ff = function(x) {
     bmax = rnd(0,255);
 
 getrgb = function() {
-    var rr = rnd(50,rmax),g = rnd(1,10),b = rnd(50,bmax);
-    var a = rnd(60,100);
+    var rr = rnd(50,100),g = rnd(1,10),b = rnd(50,200);
+    var a = rnd(30,100);
     return "rgba("+rr+","+g+","+b+","+(a/255)+")";
 };
 
 dowheel = function(e,acc) {
     window.x.x = window.x.x.mod(4*r) ;
     z.attr({z:window.x.x});
-    r-=20/r;
+    r-=10/r;
     if (r < 10) {
-        origr += 50;
+        origr += 30;
         r = origr;
-        rmax = rnd(0,100);
-        bmax = rnd(0,100);
     }
 
     var ffx = ff(window.x.x);
