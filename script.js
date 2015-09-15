@@ -204,16 +204,29 @@ f = function(x,r) {
 
 };
 
+var rs = [];
+
 ff = function(x) {
-    var ret = [];
-    _.each(_.range(rnd(1,3)), function(j){
-        _.each(_.range(rnd(1,3)), function(i){
-            var nop = rnd(0,0);
-            var dx = rnd(-3,0);
-            nop === 0 && ret.push(_.union(f(x + dx, r + rnd(-1,0) ),[0 - (dx)]));
+    var retret = [];
+
+    _.each(_.range(0,1), function(j){
+        var ret = [];
+        _.each(_.range(0,5), function(i){
+            if (rs[i] !== undefined) {
+                rs[i] = rs[i] ? (rnd(0,100) === 0 ? 0 : 1 ) : (rnd(0,100) === 0 ? 1 : 0 );
+            }
+            else {
+                rs[i] = rnd(0,3) === 0 ? 1 : 0;
+            }
+
         });
+
+        ret = _.map(rs, function(y,i){
+            return y && _.union(f(x+j*2, r + i), [rnd(1,2)]);
+        });
+        retret = _.union(retret, ret);
     });
-    return ret;
+    return retret;
 }
 
 
