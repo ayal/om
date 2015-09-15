@@ -208,7 +208,8 @@ ff = function(x) {
     _.each(_.range(rnd(1,3)), function(j){
         _.each(_.range(rnd(1,3)), function(i){
             var nop = rnd(0,0);
-            nop === 0 && ret.push(_.union(f(x + rnd(-3,3), r + rnd(-3,3) ),[rnd(1,3)]));
+            var dx = rnd(-3,0);
+            nop === 0 && ret.push(_.union(f(x + dx, r + rnd(-2,2) ),[0 - (dx)]));
         });
     });
     return ret;
@@ -227,7 +228,7 @@ getrgb = function() {
 dowheel = function(e,acc) {
     window.x.x = window.x.x.mod(4*r) ;
     z.attr({z:window.x.x});
-    r-=10/r;
+    r-=5/r;
     if (r < 10) {
         origr += 30;
         r = origr;
