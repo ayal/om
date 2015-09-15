@@ -209,7 +209,7 @@ ff = function(x) {
         _.each(_.range(rnd(1,3)), function(i){
             var nop = rnd(0,0);
             var dx = rnd(-3,0);
-            nop === 0 && ret.push(_.union(f(x + dx, r + rnd(-2,2) ),[0 - (dx)]));
+            nop === 0 && ret.push(_.union(f(x + dx, r + rnd(-1,0) ),[0 - (dx)]));
         });
     });
     return ret;
@@ -219,8 +219,9 @@ ff = function(x) {
     rmax = rnd(0,255);
     bmax = rnd(0,255);
 
+
 getrgb = function() {
-    var rr = rnd(50,100),g = rnd(1,10),b = rnd(50,200);
+    var rr = rnd(50,100),g = rnd(1,100),b = rnd(50,200);
     var a = rnd(30,100);
     return "rgba("+rr+","+g+","+b+","+(a/255)+")";
 };
