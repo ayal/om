@@ -173,7 +173,7 @@ Number.prototype.mod = function(n) {
     return ((this%n)+n)%n;
 };
 
-window.r = $('body').height() / 3, origr = r;
+window.r = $('body').height() / 4, origr = r;
 window.x = {x:0};
 window.z = $({z:window.x.x});
 
@@ -205,28 +205,34 @@ f = function(x,r) {
 
 ff = function(x) {
     var ret = [];
-    _.each(_.range(rnd(1,rnd(1,10))), function(j){
-        _.each(_.range(rnd(1,rnd(1,10))), function(i){
+    _.each(_.range(rnd(1,rnd(1,3))), function(j){
+        _.each(_.range(rnd(1,rnd(1,3))), function(i){
             var nop = rnd(0,0);
-            nop === 0 && ret.push(_.union(f(x + rnd(-1,1)*rnd(1,10), r + rnd(-1,1)*rnd(1,3) ),[rnd(1,2)]));
+            nop === 0 && ret.push(_.union(f(x + rnd(-1,1)*rnd(1,5), r + rnd(-1,1)*rnd(1,3) ),[rnd(1,3)]));
         });
     });
     return ret;
 }
 
+
+    rmax = rnd(0,255);
+    bmax = rnd(0,255);
+
 getrgb = function() {
-    var rr = rnd(1,50),g = rnd(1,10),b = rnd(1,100);
-    var a = rnd(30,50);
+    var rr = rnd(50,rmax),g = rnd(1,10),b = rnd(50,bmax);
+    var a = rnd(60,100);
     return "rgba("+rr+","+g+","+b+","+(a/255)+")";
 };
 
 dowheel = function(e,acc) {
     window.x.x = window.x.x.mod(4*r) ;
     z.attr({z:window.x.x});
-    r-=10/r;
+    r-=20/r;
     if (r < 10) {
-        origr += 20;
-        r = origr;;
+        origr += 50;
+        r = origr;
+        rmax = rnd(0,100);
+        bmax = rnd(0,100);
     }
 
     var ffx = ff(window.x.x);
