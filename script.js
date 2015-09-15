@@ -140,6 +140,7 @@ $(document)
 
 //        if ( !animating) {
             console.log('animating', window.x.x, this.distance, this.offset);
+        fs = getrgb();
             animating = true;
             z.attr({z:window.x.x}).stop(true, false).animate({z: window.x.x + this.distance},{
                 duration: i_v.i_duration, easing: 'hnlinertial', complete: function () {
@@ -221,10 +222,13 @@ ff = function(x) {
 
 
 getrgb = function() {
-    var rr = rnd(50,100),g = rnd(1,100),b = rnd(50,200);
+
+    var rr = rnd(0,200),g = rnd(1,200 - rr),b = rnd(50,200);
     var a = rnd(30,100);
     return "rgba("+rr+","+g+","+b+","+(a/255)+")";
 };
+
+fs = getrgb();
 
 dowheel = function(e,acc) {
     window.x.x = window.x.x.mod(4*r) ;
@@ -238,7 +242,7 @@ dowheel = function(e,acc) {
     var ffx = ff(window.x.x);
 
     _.each(ffx, function(fx){
-        ctx.fillStyle = getrgb();
+        ctx.fillStyle = fs;
         ctx.beginPath();    _
         ctx.arc($('body').width()/2 + fx[0], $('body').height()/2 +fx[1], fx[2], 0, 2 * Math.PI, false);
         ctx.fill();
