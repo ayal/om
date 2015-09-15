@@ -211,9 +211,9 @@ ff = function(x) {
 
     _.each(_.range(0,1), function(j){
         var ret = [];
-        _.each(_.range(0,5), function(i){
+        _.each(_.range(0,15), function(i){
             if (rs[i] !== undefined) {
-                rs[i] = rs[i] ? (rnd(0,100) === 0 ? 0 : 1 ) : (rnd(0,100) === 0 ? 1 : 0 );
+                rs[i] = rs[i] ? (rnd(0,30) === 0 ? 0 : 1 ) : (rnd(0,30) === 0 ? 1 : 0 );
             }
             else {
                 rs[i] = rnd(0,3) === 0 ? 1 : 0;
@@ -222,7 +222,7 @@ ff = function(x) {
         });
 
         ret = _.map(rs, function(y,i){
-            return y && _.union(f(x+j*2, r + i), [rnd(1,2)]);
+            return y && _.union(f(x+j*2, r + i), [rnd(2,4)]);
         });
         retret = _.union(retret, ret);
     });
