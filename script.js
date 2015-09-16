@@ -209,20 +209,21 @@ var rs = [];
 ff = function(x) {
     var retret = [];
 
-    _.each(_.range(0,1), function(j){
+    _.each(_.range(0,20), function(j){
         var ret = [];
-        _.each(_.range(0,15), function(i){
+        _.each(_.range(0,4), function(i){
             if (rs[i] !== undefined) {
-                rs[i] = rs[i] ? (rnd(0,30) === 0 ? 0 : 1 ) : (rnd(0,30) === 0 ? 1 : 0 );
+                var chance = 100;
+                rs[i] = rs[i] ? (rnd(0,chance*10) === 0 ? 0 : 1 ) : (rnd(0,chance) === 0 ? 1 : 0 );
             }
             else {
-                rs[i] = rnd(0,3) === 0 ? 1 : 0;
+                rs[i] = rnd(0,0) === 0 ? 1 : 0;
             }
 
         });
 
         ret = _.map(rs, function(y,i){
-            return y && _.union(f(x+j*2, r + i), [rnd(2,4)]);
+            return y && _.union(f(x+j*2, r + i), [rnd(1,3)]);
         });
         retret = _.union(retret, ret);
     });
@@ -246,7 +247,7 @@ fs = getrgb();
 dowheel = function(e,acc) {
     window.x.x = window.x.x.mod(4*r) ;
     z.attr({z:window.x.x});
-    r-=5/r;
+    r-=50/r;
     if (r < 10) {
         origr += 30;
         r = origr;
