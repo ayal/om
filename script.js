@@ -165,12 +165,12 @@ $(document)
                         console.log(x.x, v);
                         var seq = [window.x.x];
                         var tobex = window.x.x;
-                        while (Math.abs(tobex - v) >= 5) {
+                        while (Math.abs(tobex - v) >= 20) {
                             if (tobex > v) {
-                                tobex -= 5;
+                                tobex -= 20;
                             }
                             else if (tobex < v) {
-                                tobex += 5;
+                                tobex += 20 ;
                             }
                             seq.push(tobex);
                         }
@@ -254,7 +254,7 @@ ff = function(x) {
         });
 
         ret = _.map(rs, function(y,i){
-            return y && _.union(f(x+j*2, r + i), [rnd(1,2)]);
+            return y && _.union(f(x+j*2, r + i), [rnd(1,1)]);
         });
         retret = _.union(retret, ret);
     });
