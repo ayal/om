@@ -140,13 +140,15 @@ $(document)
 
 //        if ( !animating) {
             console.log('animating', window.x.x, this.distance, this.offset);
-        fs = getrgb();
-        r-=0.35;
+
+        r -=0.5;
         if (r < 10) {
             origr += 30;
             r = origr;
         }
 
+
+        fs = getrgb();
             animating = true;
             z.attr({z:window.x.x}).stop(true, false).animate({z: window.x.x + this.distance},{
                 duration: i_v.i_duration, easing: 'hnlinertial', complete: function () {
@@ -159,9 +161,27 @@ $(document)
 
                 }, step: function(v) {
                     if (v) {
-                        console.log(i++, x, r);
-                        window.x.x = v;
-                        dowheel();
+
+                        console.log(x.x, v);
+                        var seq = [window.x.x];
+                        var tobex = window.x.x;
+                        while (Math.abs(tobex - v) >= 5) {
+                            if (tobex > v) {
+                                tobex -= 5;
+                            }
+                            else if (tobex < v) {
+                                tobex += 5;
+                            }
+                            seq.push(tobex);
+                        }
+                        seq.push(v);
+                        _.each(seq, function(t){
+                            window.x.x = t;
+
+
+
+                            dowheel();
+                        });
                     }
                 }
             });
@@ -169,6 +189,7 @@ $(document)
 
 //    }
   });
+
 
         window.animating = false;
 /* touchmove */
@@ -184,8 +205,11 @@ Number.prototype.mod = function(n) {
 window.r = $('body').height() / 6, origr = r;
 window.x = {x:0};
 window.z = $({z:window.x.x});
+circ = 4*r;
 
 f = function(x,r) {
+    x = x.mod(4*r);
+
     if (x < r && x > -r) {
       return [x,Math.floor(Math.sqrt(r*r- x*x))]
     }
@@ -216,9 +240,9 @@ var rs = [];
 ff = function(x) {
     var retret = [];
 
-    _.each(_.range(0,5), function(j){
+    _.each(_.range(0,10), function(j){
         var ret = [];
-        _.each(_.range(0,5), function(i){
+        _.each(_.range(0,1), function(i){
             if (rs[i] !== undefined) {
                 var chance = 100;
                 rs[i] = rs[i] ? (rnd(0,chance*10) === 0 ? 0 : 1 ) : (rnd(0,chance) === 0 ? 1 : 0 );
@@ -230,7 +254,7 @@ ff = function(x) {
         });
 
         ret = _.map(rs, function(y,i){
-            return y && _.union(f(x+j*2, r + i), [rnd(1,1)]);
+            return y && _.union(f(x+j*2, r + i), [rnd(1,2)]);
         });
         retret = _.union(retret, ret);
     });
@@ -245,7 +269,7 @@ ff = function(x) {
 getrgb = function() {
 
     var rr = rnd(0,200),g = rnd(1,200 - rr),b = rnd(50,200);
-    var a = rnd(30,100);
+    var a = rnd(30,30);
     return "rgba("+rr+","+g+","+b+","+(a/255)+")";
 };
 
@@ -253,7 +277,7 @@ fs = getrgb();
 
 
 dowheel = function(e,acc) {
-    window.x.x = window.x.x.mod(4*r) ;
+    // window.x.x = window.x.x.mod(4*r) ;
     z.attr({z:window.x.x});
     var ffx = ff(window.x.x);
 
