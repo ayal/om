@@ -141,6 +141,12 @@ $(document)
 //        if ( !animating) {
             console.log('animating', window.x.x, this.distance, this.offset);
         fs = getrgb();
+        r-=0.35;
+        if (r < 10) {
+            origr += 30;
+            r = origr;
+        }
+
             animating = true;
             z.attr({z:window.x.x}).stop(true, false).animate({z: window.x.x + this.distance},{
                 duration: i_v.i_duration, easing: 'hnlinertial', complete: function () {
@@ -148,6 +154,7 @@ $(document)
                     i_v.multiplier = 10;
                     animating = false;
                     console.log('finished');
+
                     document.distance = 0;
 
                 }, step: function(v) {
@@ -209,9 +216,9 @@ var rs = [];
 ff = function(x) {
     var retret = [];
 
-    _.each(_.range(0,20), function(j){
+    _.each(_.range(0,5), function(j){
         var ret = [];
-        _.each(_.range(0,4), function(i){
+        _.each(_.range(0,5), function(i){
             if (rs[i] !== undefined) {
                 var chance = 100;
                 rs[i] = rs[i] ? (rnd(0,chance*10) === 0 ? 0 : 1 ) : (rnd(0,chance) === 0 ? 1 : 0 );
@@ -223,7 +230,7 @@ ff = function(x) {
         });
 
         ret = _.map(rs, function(y,i){
-            return y && _.union(f(x+j*2, r + i), [rnd(1,3)]);
+            return y && _.union(f(x+j*2, r + i), [rnd(1,1)]);
         });
         retret = _.union(retret, ret);
     });
@@ -244,15 +251,10 @@ getrgb = function() {
 
 fs = getrgb();
 
+
 dowheel = function(e,acc) {
     window.x.x = window.x.x.mod(4*r) ;
     z.attr({z:window.x.x});
-    r-=50/r;
-    if (r < 10) {
-        origr += 30;
-        r = origr;
-    }
-
     var ffx = ff(window.x.x);
 
     _.each(ffx, function(fx){
