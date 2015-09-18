@@ -89,7 +89,7 @@ $(document)
       case 'touchmove':
         this.vertical = Math.abs(this.pageX - e.originalEvent.touches[0].pageX) < Math.abs(this.pageY - e.originalEvent.touches[0].pageY); //find out in which direction we are scrolling
         this.distance = this.vertical ? this.pageY - e.originalEvent.touches[0].pageY : this.pageX - e.originalEvent.touches[0].pageX; //determine distance between touches
-          console.warn('distance', this.distance, e.originalEvent.touches[0].pageY, this.pageY);
+//          console.warn('distance', this.distance, e.originalEvent.touches[0].pageY, this.pageY);
         this.acc = Math.abs(this.distance / (i_v.i_time.touchmove - i_v.i_time.touchstart)); //calculate acceleration during movement (crucial)
 
         //determine which property to animate, reset animProp first for when no criteria is matched
@@ -140,12 +140,7 @@ $(document)
 
 //        if ( !animating) {
             console.log('animating', window.x.x, this.distance, this.offset);
-
-        r -=0.5;
-        if (r < 10) {
-            origr += 30;
-            r = origr;
-        }
+                    window.x.x = window.x.x.mod(4*r);
 
 
         fs = getrgb();
@@ -157,30 +152,32 @@ $(document)
                     animating = false;
                     console.log('finished');
 
-                    document.distance = 0;
 
                 }, step: function(v) {
                     if (v) {
 
-                        console.log(x.x, v);
                         var seq = [window.x.x];
                         var tobex = window.x.x;
-                        while (Math.abs(tobex - v) >= 20) {
+                        while (Math.abs(tobex - v) >= 2) {
                             if (tobex > v) {
-                                tobex -= 20;
+                                tobex -= 1;
                             }
                             else if (tobex < v) {
-                                tobex += 20 ;
+                                tobex += 1 ;
                             }
                             seq.push(tobex);
                         }
                         seq.push(v);
+//                        console.log(x.x, v, seq.length);
                         _.each(seq, function(t){
                             window.x.x = t;
+                            r -=0.01;
+                            if (r < 10) {
+                                origr += 30;
+                                r = origr;
+                            }
 
-
-
-                            dowheel();
+                            dowheel(t);
                         });
                     }
                 }
@@ -237,15 +234,16 @@ f = function(x,r) {
 
 var rs = [];
 
-ff = function(x) {
+ff = function(xx) {
     var retret = [];
 
-    _.each(_.range(0,10), function(j){
+    _.each(_.range(0,1), function(j){
         var ret = [];
         _.each(_.range(0,1), function(i){
             if (rs[i] !== undefined) {
                 var chance = 100;
-                rs[i] = rs[i] ? (rnd(0,chance*10) === 0 ? 0 : 1 ) : (rnd(0,chance) === 0 ? 1 : 0 );
+                //                rs[i] = rs[i] ? (rnd(0,chance*10) === 0 ? 0 : 1 ) : (rnd(0,chance) === 0 ? 1 : 0 );
+                rs[i] = 1;
             }
             else {
                 rs[i] = rnd(0,0) === 0 ? 1 : 0;
@@ -254,7 +252,7 @@ ff = function(x) {
         });
 
         ret = _.map(rs, function(y,i){
-            return y && _.union(f(x+j*2, r + i), [rnd(1,1)]);
+            return y && _.union(f(xx+j*2, r + i), [rnd(1,1)]);
         });
         retret = _.union(retret, ret);
     });
@@ -268,18 +266,18 @@ ff = function(x) {
 
 getrgb = function() {
 
-    var rr = rnd(0,200),g = rnd(1,200 - rr),b = rnd(50,200);
-    var a = rnd(30,30);
+    var rr = rnd(10,200),g = rnd(10,100 - rr),b = rnd(10,200);
+    var a = rnd(30,255);
     return "rgba("+rr+","+g+","+b+","+(a/255)+")";
 };
 
 fs = getrgb();
 
 
-dowheel = function(e,acc) {
+dowheel = function(xx) {
     // window.x.x = window.x.x.mod(4*r) ;
-    z.attr({z:window.x.x});
-    var ffx = ff(window.x.x);
+    z.attr({z:xx});
+    var ffx = ff(xx);
 
     _.each(ffx, function(fx){
         ctx.fillStyle = fs;
